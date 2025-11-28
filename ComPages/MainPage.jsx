@@ -11,11 +11,27 @@ import {
 } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import OrderHistory from '../components/OrderHistory';
+import CartService from '../services/CartService';
 
 const { width: screenWidth } = Dimensions.get("window");
 
 export default function MainPage() {
     const [searchQuery, setSearchQuery] = useState("");
+    const [showOrderHistory, setShowOrderHistory] = useState(false);
+
+    const handleRepeatOrder = (items) => {
+        CartService.addItems(items);
+    };
+
+    if (showOrderHistory) {
+        return (
+            <OrderHistory 
+                onRepeatOrder={handleRepeatOrder}
+                onBack={() => setShowOrderHistory(false)}
+            />
+        );
+    }
 
     // Banner images
     const bannerImages = [
@@ -100,11 +116,19 @@ export default function MainPage() {
                     <Text style={styles.deliveryTime}>10 minutes</Text>
                     <Text style={styles.location}>Somewhere, Somewhere...</Text>
                 </View>
-                <TouchableOpacity style={styles.profileButton}>
-                    <View style={styles.profileIcon}>
-                        <Icon name="person" size={24} color="#666" />
-                    </View>
-                </TouchableOpacity>
+                <View style={styles.headerButtons}>
+                    <TouchableOpacity 
+                        style={styles.orderHistoryButton}
+                        onPress={() => setShowOrderHistory(true)}
+                    >
+                        <Text style={styles.orderHistoryText}>Orders</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.profileButton}>
+                        <View style={styles.profileIcon}>
+                            <Icon name="person" size={24} color="#666" />
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
 
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -240,6 +264,21 @@ const styles = StyleSheet.create({
     location: {
         fontSize: 14,
         color: "#666",
+    },
+    headerButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    orderHistoryButton: {
+        padding: 8,
+        marginRight: 8,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 6,
+    },
+    orderHistoryText: {
+        fontSize: 12,
+        color: '#666',
+        fontWeight: '600',
     },
     profileButton: {
         padding: 5,
