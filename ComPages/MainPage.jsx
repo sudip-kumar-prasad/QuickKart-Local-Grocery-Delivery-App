@@ -383,15 +383,16 @@ const styles = StyleSheet.create({
     },
     itemImageContainer: {
         width: "100%",
-        height: 100,
+        height: 120,
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 12,
     },
     itemImage: {
-        width: "80%",
-        height: "80%",
-        resizeMode: "contain",
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
+        borderRadius: 12,
     },
     itemName: {
         fontSize: 15,
